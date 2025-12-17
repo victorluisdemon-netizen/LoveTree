@@ -1,22 +1,21 @@
-// 霸都丶傲天 2019/7/9  https://Github.com/AJLoveChina
 var config = {
-    // 下面的句子不一定非要7句， 你也可以改成4句，2句话都可以
+    // Estas frases aparecerán una por una en la pantalla
     lines: [
-        "亲爱的雯雯",
-        "花开一季，有落红为证",
-        "逝去的岁月，如何能托于烟尘",
-        "你的浅笑，是我永生眷恋",
-        "相思的真情，是否能明白一二",
-        "亲爱的宝贝，你是我的唯一",
-        "爱你永远。。。",
+        "Hola Yuly, mi niña de ojitos hermosos,",
+        "Desde aquel 7 de noviembre mi vida tiene otro sentido.",
+        "Aún recuerdo cuando nos conocimos trabajando...",
+        "Poco a poco me fui enamorando de ti,",
+        "De tu sonrisa, de tu cabello castaño y de tu forma de ser.",
+        "Gracias por este tiempo a mi lado,",
+        "Eres mi motivación para seguir adelante con mis metas,",
+        "Y mi compañera favorita en cada paso que doy.",
+        "¡Te amo muchísimo!",
+        "Siempre tuyo: Victor Luis."
     ],
-    // 相爱的时间 记住格式不能写错了, 非常重要
-    // 格式一定要和下面这个时间格式一样
-    // 分别是 年-月-日T时时:分分:秒秒
-    //      温馨警告:
-    //          1.时分秒都必须是俩个数字  比如 00:00:00
-    //          2.T不能丢了
-    date: "2017-07-20T20:15:00",
-    // 双方的名字
-    names: ["笨笨熊", "黑猪猪"]
-}
+    // Fecha de su aniversario: 7 de noviembre de 2024 (o el año que prefieras)
+    // Formato: Año-Mes-Día Hora:Minuto:Segundo
+    date: "2024-11-07 00:00:00",
+    
+    // Sus nombres para el pie de página
+    names: ["Victor", "Yuly"]
+};
