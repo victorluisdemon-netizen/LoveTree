@@ -1,237 +1,54 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Our Story</title>
-
-    <link type="text/css" rel="stylesheet" href="./index_files/default.css">
-    <script type="text/javascript" src="./index_files/jquery.min.js"></script>
-    <script type="text/javascript" src="./index_files/jscex.min.js"></script>
-    <script type="text/javascript" src="./index_files/jscex-parser.js"></script>
-    <script type="text/javascript" src="./index_files/jscex-jit.js"></script>
-    <script type="text/javascript" src="./index_files/jscex-builderbase.min.js"></script>
-    <script type="text/javascript" src="./index_files/jscex-async.min.js"></script>
-    <script type="text/javascript" src="./index_files/jscex-async-powerpack.min.js"></script>
-    <script type="text/javascript" src="./index_files/functions.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./index_files/love.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./config.js"></script>
-    <style type="text/css">
-        <!--
-        .STYLE1 {
-            color: #666666
-        }
-
-        -->
+    <meta charset="UTF-8">
+    <title>Victor & Yuly</title>
+    <style>
+        body { background-color: #fffaf0; margin: 0; overflow: hidden; font-family: 'Courier New', serif; }
+        #canvas { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 1; }
+        #content { position: absolute; top: 10%; left: 5%; z-index: 10; width: 380px; background: rgba(255,255,255,0.7); padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .names { font-size: 2.5em; color: #d63384; margin: 0; font-weight: bold; }
+        #clock-box { font-size: 1.2em; color: #555; margin-top: 15px; }
+        #clock { font-size: 1.5em; font-weight: bold; color: #ff4d6d; }
+        #message { font-size: 1.2em; color: #333; line-height: 1.6; font-style: italic; margin-top: 25px; border-left: 4px solid #ff4d6d; padding-left: 15px; }
     </style>
 </head>
 <body>
-
-<img src="https://ajlovechina.github.io/loveBalloon/static/music.png" style="position: fixed;z-index: 10001;top:10px;right:10px;" onclick="let m = document.querySelector('.song-audio-autoplay'); if (m.paused ) {m.play(); this.className = 'rotateImages'} else {m.pause(); this.className = ''}">
-<audio class="song-audio-autoplay" controls loop style="display: none;visibility: hidden">
-    <source src="./index_files/music.mp3" type="audio/mp3"/>
-</audio>
-<style type="text/css">
-    .rotateImages{
-        -webkit-animation:myRotate 10s linear infinite;
-        animation:myRotate 10s linear infinite;
-    }
-    @-webkit-keyframes myRotate{
-        0%{ -webkit-transform: rotate(0deg);}
-        50%{ -webkit-transform: rotate(180deg);}
-        100%{ -webkit-transform: rotate(360deg);}
-    }
-    @keyframes myRotate{
-        0%{ -webkit-transform: rotate(0deg);}
-        50%{ -webkit-transform: rotate(180deg);}
-        100%{ -webkit-transform: rotate(360deg);}
-    }
-</style>
-
-<div id="main">
-    <div id="error">本页面采用HTML5编辑，目前您的浏览器无法显示，请换成谷歌(<a
-            href="http://www.google.cn/chrome/intl/zh-CN/landing_chrome.html?hl=zh-CN&brand=CHMI">Chrome</a>)或者火狐(<a
-            href="http://firefox.com.cn/download/">Firefox</a>)浏览器，或者其他游览器的最新版本。
-    </div>
-    <div id="wrap">
-        <div id="text">
-            <div id="code">
-            </div>
-        </div>
-        <div id="clock-box">
-                    <span id="clock-box-inside-text">
-					</span>
-            <div id="clock"></div>
-        </div>
-        <canvas id="canvas" width="1100" height="680"></canvas>
-    </div>
-
+<div id="content">
+    <h1 class="names">Victor & Yuly</h1>
+    <div id="clock-box">Llevamos juntos:<br><span id="clock"></span></div>
+    <div id="message">"Es curioso cómo cambian las cosas cuando uno no las planea. La verdad es que no buscaba nada y te encontré, y ahora te convertiste en mi todo, Yuly."</div>
 </div>
-
-<script type="text/javascript">
-    $('#code').html(config.lines.map(item => {
-        return `<span class="say">${item}</span><br>
-						<span class="say"> </span><br>`
-    }).reduce((a, b) => {
-        return a + b;
-    }))
-    $("#clock-box-inside-text").html(`${config.names[0]}<span class="STYLE1">与</span> ${config.names[1]}<span class="STYLE1">已经相恋了</span>`)
-</script>
-
+<canvas id="canvas"></canvas>
+<iframe width="0" height="0" src="https://www.youtube.com/embed/j_q-90BfQpA?autoplay=1&start=45" frameborder="0" allow="autoplay"></iframe>
 <script>
-    (function () {
-        var canvas = $('#canvas');
-
-        if (!canvas[0].getContext) {
-            $("#error").show();
-            return false;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    function updateClock() {
+        const start = new Date(2025, 10, 7); // 7 de Noviembre
+        const now = new Date();
+        const diff = now - start;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        document.getElementById('clock').innerHTML = days + "d " + hours + "h " + mins + "m";
+    }
+    setInterval(updateClock, 1000); updateClock();
+    function drawBranch(x, y, len, angle, branchWidth) {
+        ctx.beginPath(); ctx.save(); ctx.strokeStyle = "#4d2600"; ctx.lineWidth = branchWidth;
+        ctx.translate(x, y); ctx.rotate(angle * Math.PI / 180); ctx.moveTo(0, 0); ctx.lineTo(0, -len); ctx.stroke();
+        if (len < 10) {
+            ctx.fillStyle = "#ff4d6d"; ctx.beginPath(); ctx.arc(0, -len, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.restore(); return;
         }
-
-        var width = canvas.width();
-        var height = canvas.height();
-
-        canvas.attr("width", width);
-        canvas.attr("height", height);
-
-        var opts = {
-            seed: {
-                x: width / 2 - 20,
-                color: "rgb(190, 26, 37)",
-                scale: 2
-            },
-            branch: [
-                [535, 680, 570, 250, 500, 200, 30, 100, [
-                    [540, 500, 455, 417, 340, 400, 13, 100, [
-                        [450, 435, 434, 430, 394, 395, 2, 40]
-                    ]],
-                    [550, 445, 600, 356, 680, 345, 12, 100, [
-                        [578, 400, 648, 409, 661, 426, 3, 80]
-                    ]],
-                    [539, 281, 537, 248, 534, 217, 3, 40],
-                    [546, 397, 413, 247, 328, 244, 9, 80, [
-                        [427, 286, 383, 253, 371, 205, 2, 40],
-                        [498, 345, 435, 315, 395, 330, 4, 60]
-                    ]],
-                    [546, 357, 608, 252, 678, 221, 6, 100, [
-                        [590, 293, 646, 277, 648, 271, 2, 80]
-                    ]]
-                ]]
-            ],
-            bloom: {
-                num: 700,
-                width: 1080,
-                height: 650,
-            },
-            footer: {
-                width: 1200,
-                height: 5,
-                speed: 10,
-            }
-        }
-
-        var tree = new Tree(canvas[0], width, height, opts);
-        var seed = tree.seed;
-        var foot = tree.footer;
-        var hold = 1;
-
-        canvas.click(function (e) {
-            var offset = canvas.offset(), x, y;
-            x = e.pageX - offset.left;
-            y = e.pageY - offset.top;
-            if (seed.hover(x, y)) {
-                hold = 0;
-                canvas.unbind("click");
-                canvas.unbind("mousemove");
-                canvas.removeClass('hand');
-            }
-        }).mousemove(function (e) {
-            var offset = canvas.offset(), x, y;
-            x = e.pageX - offset.left;
-            y = e.pageY - offset.top;
-            canvas.toggleClass('hand', seed.hover(x, y));
-        });
-
-        var seedAnimate = eval(Jscex.compile("async", function () {
-            seed.draw();
-            while (hold) {
-                $await(Jscex.Async.sleep(10));
-            }
-            while (seed.canScale()) {
-                seed.scale(0.95);
-                $await(Jscex.Async.sleep(10));
-            }
-            while (seed.canMove()) {
-                seed.move(0, 2);
-                foot.draw();
-                $await(Jscex.Async.sleep(10));
-            }
-        }));
-
-        var growAnimate = eval(Jscex.compile("async", function () {
-            do {
-                tree.grow();
-                $await(Jscex.Async.sleep(10));
-            } while (tree.canGrow());
-        }));
-
-        var flowAnimate = eval(Jscex.compile("async", function () {
-            do {
-                tree.flower(2);
-                $await(Jscex.Async.sleep(10));
-            } while (tree.canFlower());
-        }));
-
-        var moveAnimate = eval(Jscex.compile("async", function () {
-            tree.snapshot("p1", 240, 0, 610, 680);
-            while (tree.move("p1", 500, 0)) {
-                foot.draw();
-                $await(Jscex.Async.sleep(10));
-            }
-            foot.draw();
-            tree.snapshot("p2", 500, 0, 610, 680);
-
-            // 会有闪烁不得意这样做, (＞﹏＜)
-            canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
-            canvas.css("background", "#ffe");
-            $await(Jscex.Async.sleep(300));
-            canvas.css("background", "none");
-        }));
-
-        var jumpAnimate = eval(Jscex.compile("async", function () {
-            var ctx = tree.ctx;
-            while (true) {
-                tree.ctx.clearRect(0, 0, width, height);
-                tree.jump();
-                foot.draw();
-                $await(Jscex.Async.sleep(25));
-            }
-        }));
-
-        var textAnimate = eval(Jscex.compile("async", function () {
-            var together = new Date(config.date);
-
-            $("#code").show().typewriter();
-            $("#clock-box").fadeIn(500);
-            while (true) {
-                timeElapse(together);
-                $await(Jscex.Async.sleep(1000));
-            }
-        }));
-
-        var runAsync = eval(Jscex.compile("async", function () {
-            $await(seedAnimate());
-            $await(growAnimate());
-            $await(flowAnimate());
-            $await(moveAnimate());
-
-            textAnimate().start();
-
-            $await(jumpAnimate());
-        }));
-
-        runAsync().start();
-    })();
+        setTimeout(() => {
+            drawBranch(0, -len, len * 0.8, angle - 18, branchWidth * 0.7);
+            drawBranch(0, -len, len * 0.8, angle + 18, branchWidth * 0.7);
+        }, 100);
+        ctx.restore();
+    }
+    window.onload = () => { drawBranch(canvas.width / 2, canvas.height, 125, 0, 12); };
 </script>
-
-
 </body>
 </html>
